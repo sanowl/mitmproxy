@@ -9,11 +9,11 @@ to multiple files in parallel.
 """
 
 import os
-import random
 from typing import BinaryIO
 
 from mitmproxy import http
 from mitmproxy import io
+import secrets
 
 
 class Writer:
@@ -25,7 +25,7 @@ class Writer:
         self.w = io.FlowWriter(self.f)
 
     def response(self, flow: http.HTTPFlow) -> None:
-        if random.choice([True, False]):
+        if secrets.choice([True, False]):
             self.w.add(flow)
 
     def done(self):
