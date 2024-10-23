@@ -1867,7 +1867,7 @@ if __name__ == "__main__":  # pragma: no cover
 
     out = io.StringIO()
 
-    r = requests.get("https://api.github.com/emojis")
+    r = requests.get("https://api.github.com/emojis", timeout=60)
     for name, url in r.json().items():
         codepoints = url.rpartition("/")[2].partition(".png")[0].split("-")
         try:
