@@ -35,7 +35,7 @@ class TestJSONDump:
             tctx.invoke(a, "response", self.flow())
             tctx.invoke(a, "done")
             with open(path) as inp:
-                entry = json.loads(inp.readline())
+                entry = json.loads(inp.readline(5_000_000))
             assert entry["response"]["content"] == "message"
 
     def test_contentencode(self, tmpdir):
@@ -48,7 +48,7 @@ class TestJSONDump:
             tctx.invoke(a, "response", self.flow(resp_content=content))
             tctx.invoke(a, "done")
             with open(path) as inp:
-                entry = json.loads(inp.readline())
+                entry = json.loads(inp.readline(5_000_000))
             assert entry["response"]["content"] == base64.b64encode(content).decode(
                 "utf-8"
             )
