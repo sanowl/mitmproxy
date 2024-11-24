@@ -122,7 +122,7 @@ class CliDirector:
         time.sleep(seconds)
 
     def run_external(self, command: str) -> None:
-        subprocess.run(command, shell=True)
+        subprocess.run(command, shell=False)
 
     def message(
         self,
