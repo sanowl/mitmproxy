@@ -6,6 +6,7 @@ import time
 from typing import NamedTuple
 
 import libtmux
+from security import safe_command
 
 
 class InstructionSpec(NamedTuple):
@@ -122,7 +123,7 @@ class CliDirector:
         time.sleep(seconds)
 
     def run_external(self, command: str) -> None:
-        subprocess.run(command, shell=True)
+        safe_command.run(subprocess.run, command, shell=True)
 
     def message(
         self,

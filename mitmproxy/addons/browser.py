@@ -6,6 +6,7 @@ import tempfile
 from mitmproxy import command
 from mitmproxy import ctx
 from mitmproxy.log import ALERT
+from security import safe_command
 
 
 def get_chrome_executable() -> str | None:
@@ -81,8 +82,7 @@ class Browser:
         tdir = tempfile.TemporaryDirectory()
         self.tdir.append(tdir)
         self.browser.append(
-            subprocess.Popen(
-                [
+            safe_command.run(subprocess.Popen, [
                     *cmd,
                     "--user-data-dir=%s" % str(tdir.name),
                     "--proxy-server={}:{}".format(
