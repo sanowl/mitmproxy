@@ -34,6 +34,7 @@ from .ASWBXMLCodePage import ASWBXMLCodePage
 from .ASWBXMLByteQueue import ASWBXMLByteQueue
 from .GlobalTokens import GlobalTokens
 from .InvalidDataException import InvalidDataException
+import defusedxml.minidom
 
 class ASWBXML:
 	versionByte = 0x03
@@ -816,7 +817,7 @@ class ASWBXML:
 	
 	def loadXml(self, strXML):
 		# note xmlDoc has .childNodes and .parentNode
-		self.xmlDoc = xml.dom.minidom.parseString(strXML)
+		self.xmlDoc = defusedxml.minidom.parseString(strXML)
 
 	def getXml(self):
 		if (self.xmlDoc != None):
