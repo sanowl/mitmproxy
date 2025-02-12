@@ -189,7 +189,7 @@ class JSONDumper:
             self.outfile.write(json.dumps(frame) + "\n")
             self.lock.release()
         else:
-            requests.post(self.url, json=frame, auth=(self.auth or None))
+            requests.post(self.url, json=frame, auth=(self.auth or None), timeout=60)
 
     @staticmethod
     def load(loader):
