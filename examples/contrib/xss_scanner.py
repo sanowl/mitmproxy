@@ -43,9 +43,8 @@ from typing import NamedTuple
 from typing import Optional
 from urllib.parse import urlparse
 
-import requests
-
 from mitmproxy import http
+from security import safe_requests
 
 # The actual payload is put between a frontWall and a backWall to make it easy
 # to locate the payload with regular expressions
@@ -138,7 +137,7 @@ def test_end_of_URL_injection(
         "utf-8"
     )  # the path must be a string while the payload is bytes
     url = parsed_URL._replace(path=path).geturl()
-    body = requests.get(url, cookies=cookies).text.lower()
+    body = safe_requests.get(url, cookies=cookies).text.lower()
     xss_info = get_XSS_data(body, url, "End of URL")
     sqli_info = get_SQLi_data(body, original_body, url, "End of URL")
     return xss_info, sqli_info
@@ -149,7 +148,7 @@ def test_referer_injection(
 ) -> VulnData:
     """Test the given URL for XSS via injection into the referer and
     log the XSS if found"""
-    body = requests.get(
+    body = safe_requests.get(
         request_URL, headers={"referer": FULL_PAYLOAD}, cookies=cookies
     ).text.lower()
     xss_info = get_XSS_data(body, request_URL, "Referer")
@@ -162,7 +161,7 @@ def test_user_agent_injection(
 ) -> VulnData:
     """Test the given URL for XSS via injection into the user agent and
     log the XSS if found"""
-    body = requests.get(
+    body = safe_requests.get(
         request_URL, headers={"User-Agent": FULL_PAYLOAD}, cookies=cookies
     ).text.lower()
     xss_info = get_XSS_data(body, request_URL, "User Agent")
@@ -182,7 +181,7 @@ def test_query_injection(original_body: str, request_URL: str, cookies: Cookies)
     ]
     new_query_string = "&".join(queries)
     new_URL = parsed_URL._replace(query=new_query_string).geturl()
-    body = requests.get(new_URL, cookies=cookies).text.lower()
+    body = safe_requests.get(new_URL, cookies=cookies).text.lower()
     xss_info = get_XSS_data(body, new_URL, "Query")
     sqli_info = get_SQLi_data(body, original_body, new_URL, "Query")
     return xss_info, sqli_info
