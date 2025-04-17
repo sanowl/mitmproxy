@@ -59,6 +59,7 @@ dependencies = [
     "wsproto>=1.0,<=1.2.0",
     "publicsuffix2>=2.20190812,<=2.20191221",
     "zstandard>=0.15,<=0.23.0",
+    "defusedxml==0.7.1",
 ]
 
 [project.optional-dependencies]
