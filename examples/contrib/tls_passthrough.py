@@ -17,7 +17,6 @@ Example:
 
 import collections
 import logging
-import random
 from abc import ABC
 from abc import abstractmethod
 from enum import Enum
@@ -27,6 +26,7 @@ from mitmproxy import ctx
 from mitmproxy import tls
 from mitmproxy.addonmanager import Loader
 from mitmproxy.utils import human
+import secrets
 
 
 class InterceptionResult(Enum):
@@ -74,7 +74,7 @@ class ProbabilisticStrategy(TlsStrategy):
         super().__init__()
 
     def should_intercept(self, server_address: connection.Address) -> bool:
-        return random.uniform(0, 1) < self.p
+        return secrets.SystemRandom().uniform(0, 1) < self.p
 
 
 class MaybeTls:
