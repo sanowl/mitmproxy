@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import base64
 import itertools
-import random
 import struct
 import time
 from collections.abc import Iterable
@@ -21,6 +20,7 @@ from mitmproxy.net.dns import response_codes
 from mitmproxy.net.dns import types
 from mitmproxy.net.dns.https_records import HTTPSRecord
 from mitmproxy.net.dns.https_records import SVCParamKeys
+import secrets
 
 # DNS parameters taken from https://www.iana.org/assignments/dns-parameters/dns-parameters.xml
 
@@ -484,7 +484,7 @@ class Message(serializable.SerializableDataclass):
     def copy(self) -> Message:
         # we keep the copy semantics but change the ID generation
         state = self.get_state()
-        state["id"] = random.randint(0, 65535)
+        state["id"] = secrets.SystemRandom().randint(0, 65535)
         return Message.from_state(state)
 
 
